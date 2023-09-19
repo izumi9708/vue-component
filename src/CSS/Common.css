@@ -1,0 +1,58 @@
+html {
+  font-size: 62.5%;
+}
+body *{
+  font-size: 1.6rem ;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+      -webkit-overflow-scrolling: touch;
+font-family: "MS Pゴシック" , sans-serif; ;
+}
+body {
+margin : 0 ;
+}
+img {
+  width: 100%;
+  vertical-align: bottom;
+}
+
+.app-wrapper {
+  padding: 10px;
+}
+.header-menu {
+  border: solid 1px rgb(179, 179, 179);
+  padding: 5px;
+  border-radius: 5px;
+}
+.link-item {
+  margin-left: 10px;
+  padding: 5px;
+  border: solid 1px rgb(11, 46, 141);
+  border-radius: 5px;
+  color: rgb(11, 46, 141);
+  text-decoration: none;
+}
+.link-item:first-of-type {
+  margin-left: 0;
+}
+.active {
+  background-color: rgb(11, 46, 141);
+  color: #fff;
+}
+.wrap {
+  margin-top: 20px;
+  border:solid 1px rgb(199, 199, 199);
+  padding: 10px;
+  border-radius: 5px;
+  width: 500px;
+}
+
+button {
+  padding: 3px 5px;
+  border: none;
+  background-color: #009688;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+}
