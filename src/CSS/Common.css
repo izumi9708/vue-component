@@ -48,6 +48,13 @@ img {
   width: 500px;
 }
 
+input[type="text"] {
+  background-color: #ececec;
+    border-radius: 5px;
+    border: solid 1px #a5a5a5;
+    padding: 3px;
+}
+
 button {
   padding: 3px 5px;
   border: none;

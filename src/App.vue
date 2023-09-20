@@ -2,6 +2,7 @@
 import './CSS/Common.css';
 import Counter from './components/Counter.vue';
 import { ref } from 'vue';
+import Todo from './components/Todo.vue';
 
 
 </script>
@@ -9,6 +10,7 @@ import { ref } from 'vue';
 <template>
   <div class="app-wrapper">
     <Counter/>
+    <Todo/>
   </div>
 </template>
 
