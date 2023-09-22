@@ -3,6 +3,7 @@ import './CSS/Common.css';
 import Counter from './components/Counter.vue';
 import { ref } from 'vue';
 import Todo from './components/Todo.vue';
+import PostList from './components/PostList.vue';
 
 
 </script>
@@ -11,6 +12,7 @@ import Todo from './components/Todo.vue';
   <div class="app-wrapper">
     <Counter/>
     <Todo/>
+    <PostList/>
   </div>
 </template>
 

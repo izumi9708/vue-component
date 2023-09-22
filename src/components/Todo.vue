@@ -36,7 +36,6 @@ const addTask:AddTask = (event) => {
   }
 }
 
-console.log(taskList)
 </script>
 
 <template>
