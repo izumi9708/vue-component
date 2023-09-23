@@ -1,37 +1,70 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-  const infoData = ref(null);
+  const infoResolveData = ref<ResolveObj|null>();
+  const infoRejectData  = ref<RejectObj|null>();
+  const refId           = ref<string>();
+  const looding         = ref<boolean>();
 
   type searchAccountInfoMold = (event:MouseEvent) => void;
   const searchAccountInfo:searchAccountInfoMold = (event) => {
     const input = (event.target as HTMLElement).previousElementSibling as HTMLInputElement;
 
-    if(input.value !== ''){
-      const id = input.value;
-      
-      getAcountInfo(id).then(res => {
-        infoData.value = res;
+    refId.value = input.value;
+
+  }
+
+  watch(refId,(newId) => {
+    if( newId !== '' && typeof(newId) == 'string' ){
+      getAcountInfo(newId).then(res => {
+        if('name' in res){
+          infoRejectData.value = null;
+          infoResolveData.value = res;
+        }else {
+          infoResolveData.value = null;
+          infoRejectData.value = res;
+        }
       })
       .catch(error => {
-        console.log(error);
+        alert('通信が失敗しました');
       })
       
     }else {
       alert('idが入力されていません');
     }
+  })
+
+  type ResolveObj = {
+    name:string;
+    avatar_url:string;
+    html_url:string;
+    public_repos:string;
   }
-
-  
-  // type GetAcountInfoMold = (id:string) => ;
-  const getAcountInfo = async(id:string) => {
+  type RejectObj = {
+    message:string;
+  }
+  type GetAcountInfoMold = (id:string) => Promise<ResolveObj|RejectObj>;
+  const getAcountInfo:GetAcountInfoMold = async(id:string) => {
     try {
-      const result = await fetch(`https://api.github.com/users/${id}`);
 
+      await new Promise((resolve,reject) => {
+        looding.value = true;
+        resolve('');
+      })
+
+      await new Promise((resolve,reject) => {
+        setTimeout(() => {
+          resolve('');
+        }, 1000);
+      })
+
+      const result = await fetch(`https://api.github.com/users/${id}`);
+      result ? looding.value = false : looding.value = true;
+      
       return result.json();
 
     }catch(error) {
-      console.error(error);
+      alert('通信が失敗しました');
     }
   }
 
@@ -48,17 +81,29 @@ import { ref } from 'vue';
           <input type="text" placeholder="ユーザーIDを入力してください">
           <button type="button" @click="searchAccountInfo($event)">検索</button>
         </div>
-        <div class="account-information" v-if="infoData">
-          {{ console.log(infoData) }}
-          <div class="info-img"><img :src="infoData.avatar_url"></div>
-          <div class="info-text">
-            <p class="info-name" v-if="infoData.name">{{ infoData.name }}</p><p class="info-name" v-else>なし</p>
-            <p class="info-item">URL：<a :href="infoData.html_url" target="_blank" class="info-text-url" v-if="infoData.html_url">{{ infoData.html_url }}</a><a class="info-text-url" v-else>なし</a></p>
-            <p class="info-item">公開リポジトリ：<span class="info-text-content" v-if="infoData.public_repos">{{ infoData.public_repos }}</span><span class="info-text-content" v-else>なし</span></p>
+        <div v-if="looding">
+          <div className="load-wrap">
+            <p className="load-text">Loading</p>
+            <div className="load-icon">
+              <svg width="100%" height="100%" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g transform="translate(2 1)"  stroke-width="1.5"><circle cx="42.601" cy="11.462" r="5" fill-opacity="1" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="1;0;0;0;0;0;0;0" calcMode="linear" repeatCount="indefinite" /></circle><circle cx="49.063" cy="27.063" r="5" fill-opacity="0" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="0;1;0;0;0;0;0;0" calcMode="linear" repeatCount="indefinite" /></circle><circle cx="42.601" cy="42.663" r="5" fill-opacity="0" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="0;0;1;0;0;0;0;0" calcMode="linear" repeatCount="indefinite" /></circle><circle cx="27" cy="49.125" r="5" fill-opacity="0" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="0;0;0;1;0;0;0;0" calcMode="linear" repeatCount="indefinite" /></circle><circle cx="11.399" cy="42.663" r="5" fill-opacity="0" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="0;0;0;0;1;0;0;0" calcMode="linear" repeatCount="indefinite" /></circle><circle cx="4.938" cy="27.063" r="5" fill-opacity="0" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="0;0;0;0;0;1;0;0" calcMode="linear" repeatCount="indefinite" /></circle><circle cx="11.399" cy="11.462" r="5" fill-opacity="0" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="0;0;0;0;0;0;1;0" calcMode="linear" repeatCount="indefinite" /></circle><circle cx="27" cy="5" r="5" fill-opacity="0" ><animate attributeName="fill-opacity" begin="0s" dur="1.3s" values="0;0;0;0;0;0;0;1" calcMode="linear" repeatCount="indefinite" /></circle></g></g></svg>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="account-information" v-if="infoResolveData">
+            <div class="info-img"><img :src="infoResolveData.avatar_url"></div>
+            <div class="info-text">
+              <p class="info-name" v-if="infoResolveData.name">{{ infoResolveData.name }}</p><p class="info-name" v-else>名前なし</p>
+              <p class="info-item">URL：<a :href="infoResolveData.html_url" target="_blank" class="info-text-url" v-if="infoResolveData.html_url">{{ infoResolveData.html_url }}</a><a class="info-text-url" v-else>なし</a></p>
+              <p class="info-item">公開リポジトリ：<span class="info-text-content" v-if="infoResolveData.public_repos">{{ infoResolveData.public_repos }}</span><span class="info-text-content" v-else>なし</span></p>
+            </div>
+          </div>
+          <div class="account-information" v-else-if="infoRejectData">
+            <p>アカウントが存在しません</p>
           </div>
         </div>
 
-      </div>
+        </div>
   </div>
 </template>
 
@@ -104,6 +149,26 @@ import { ref } from 'vue';
   width: 100%;
   height: 100%;
   border-radius: 100px;
+}
+.load-wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.load-icon {
+  width: 20px;
+  height: 17px;
+  margin-left: 5px;
+}
+.load-icon svg {
+  stroke: #009688;
+}
+.load-text {
+  color: #009688;
+  font-weight: bold;
+}
+.load-icon svg circle {
+  fill: #009688;
 }
 
 </style>
