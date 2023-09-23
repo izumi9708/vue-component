@@ -4,6 +4,7 @@ import Counter from './components/Counter.vue';
 import { ref } from 'vue';
 import Todo from './components/Todo.vue';
 import PostList from './components/PostList.vue';
+import SearchGithubAccount from './components/SearchGithubAccount.vue';
 
 
 </script>
@@ -13,6 +14,7 @@ import PostList from './components/PostList.vue';
     <Counter/>
     <Todo/>
     <PostList/>
+    <SearchGithubAccount/>
   </div>
 </template>
 
