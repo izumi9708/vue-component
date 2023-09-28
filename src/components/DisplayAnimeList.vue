@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import { ref, watch , onMounted } from 'vue';
+import '../CSS/SearchAnime .css';
+
+
 type PropsDataList = {
-  data: {
-    url: string;
-    images: { jpg: { image_url: string } };
-    year: string;
-    type: string;
-    title_japanese: string;
-    mal_id: number;
-  }[];
-}
-type DataList = {
   data: {
     url: string;
     images: { jpg: { image_url: string } };
@@ -43,14 +36,14 @@ localDataList.value = props.dataList;
 
 <template>
   <div className="display-list">
-    <div  className="anime-item">
-      <div className="anime-img"><img></div>
+    <div v-for="list in localDataList?.data" :key="list.mal_id"  className="anime-item">
+      <div className="anime-img"><img :src="list.images.jpg.image_url"></div>
       <div className="anime-item-text">
         <div className="anime-container">
-          <p></p>
-          <p></p>
+          <p>{{ list.year }}</p>
+          <p>{{ list.type }}</p>
         </div>
-        <h2 className="anime-title"></h2>
+        <h2 className="anime-title">{{ list.title_japanese }}</h2>
       </div>
     </div>
   </div>
