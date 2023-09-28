@@ -32,11 +32,19 @@ watch(localDataList, (newVal) => {
 
 // コンポーネントがマウントされたときに初期データをセット
 localDataList.value = props.dataList;
+
+
+function openWindow(url:string){
+  window.open(url);
+}
 </script>
 
 <template>
   <div className="display-list">
-    <div v-for="list in localDataList?.data" :key="list.mal_id"  className="anime-item">
+    <div v-for="list in localDataList?.data" 
+    :key="list.mal_id"  className="anime-item"
+    @click="openWindow(list.url)"
+    >
       <div className="anime-img"><img :src="list.images.jpg.image_url"></div>
       <div className="anime-item-text">
         <div className="anime-container">
