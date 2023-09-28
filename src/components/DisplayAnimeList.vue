@@ -33,7 +33,6 @@ watch(localDataList, (newVal) => {
 // コンポーネントがマウントされたときに初期データをセット
 localDataList.value = props.dataList;
 
-
 function openWindow(url:string){
   window.open(url);
 }
