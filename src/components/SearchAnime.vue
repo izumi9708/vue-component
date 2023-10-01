@@ -16,6 +16,8 @@ import '../CSS/SearchAnime .css';
   type GetAnimeList = (name:string) => Promise<DataList>;
   type SearchAnime = (event:MouseEvent) => void;
 
+  export type {DataList};
+
   const list    = ref<DataList>();
   const looding = ref<boolean>();
   const searchVal   = ref<string>();
@@ -71,9 +73,19 @@ import '../CSS/SearchAnime .css';
 
 </script>
 
-<script lang="ts">
+<!-- <script lang="ts">
+export type DataList = {
+      data: {
+      url:string;
+      images:{jpg:{image_url:string}};
+      year:string;
+      type:string;
+      title_japanese:string;
+      mal_id:number
+    }[]
+  }
 
-</script>
+</script> -->
 
 <template>
   <div className="search-anime wrap">

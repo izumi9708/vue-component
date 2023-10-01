@@ -6,6 +6,7 @@ import Todo from './components/Todo.vue';
 import PostList from './components/PostList.vue';
 import SearchGithubAccount from './components/SearchGithubAccount.vue';
 import SearchAnime from './components/SearchAnime.vue';
+import SearchWeather from './components/SearchWeather.vue'
 
 
 </script>
@@ -17,6 +18,9 @@ import SearchAnime from './components/SearchAnime.vue';
     <PostList/>
     <SearchGithubAccount/>
     <SearchAnime/>
+    <SearchWeather/>
+    
+
   </div>
 </template>
 
