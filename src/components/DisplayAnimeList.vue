@@ -1,24 +1,14 @@
 <script setup lang="ts">
 import { ref, watch , onMounted } from 'vue';
 import '../CSS/SearchAnime .css';
+import type {DataList} from './SearchAnime.vue';
 
-
-type PropsDataList = {
-  data: {
-    url: string;
-    images: { jpg: { image_url: string } };
-    year: string;
-    type: string;
-    title_japanese: string;
-    mal_id: number;
-  }[];
-}
 
 const props = defineProps<{
-  dataList: PropsDataList;
+  dataList: DataList;
 }>()
 
-const localDataList = ref<PropsDataList | null>(null);
+const localDataList = ref<DataList | null>(null);
 
 // props.dataListが変更されたときにローカルのデータにコピー
 watch(() => props.dataList, (newVal) => {
@@ -33,14 +23,15 @@ watch(localDataList, (newVal) => {
 // コンポーネントがマウントされたときに初期データをセット
 localDataList.value = props.dataList;
 
-function openWindow(url:string){
+
+function openWindow(url:string):void{
   window.open(url);
 }
 </script>
 
 <template>
   <div className="display-list">
-    <div v-for="list in localDataList?.data" 
+    <div v-for="list in props.dataList.data" 
     :key="list.mal_id"  className="anime-item"
     @click="openWindow(list.url)"
     >
