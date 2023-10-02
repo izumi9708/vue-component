@@ -15,7 +15,7 @@ import WeatherSubDisplay from './WeatherSubDisplay.vue';
 
   const getFutureData = async(lat,lon) => {
     try {
-      const result = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=5e97d352a6506604ac5ad5d7e3635764`)
+      const result = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&lang=ja&&appid=5e97d352a6506604ac5ad5d7e3635764`)
 
       return result.json();
     }catch(error){
@@ -27,12 +27,12 @@ import WeatherSubDisplay from './WeatherSubDisplay.vue';
     getFutureData(props.currentData.coord.lat,props.currentData.coord.lon)
     .then(res => futureData.value = res);
   })
-  console.log(props.currentData.name);
+  // console.log(props.currentData.name);
   
 </script>
 
 <template>
-  {{ console.log(props.currentData) }}
+  <!-- {{ console.log(props.currentData) }} -->
   <div class="weather-display-wrap">
     <div class="current-weather">
       <div class="main-weather">
@@ -69,6 +69,7 @@ import WeatherSubDisplay from './WeatherSubDisplay.vue';
       </div>
       <WeatherSubDisplay
         v-if="futureData && futureData !== null"
+        :currentDate="date"
         :futureData="futureData"
       />
     </div>
@@ -86,6 +87,9 @@ import WeatherSubDisplay from './WeatherSubDisplay.vue';
   .weather-display-wrap .main-weather {
     display: flex;
     align-items: center;
+    background-color: #e3e3e3;
+    padding: 10px;
+    border-radius: 10px;
   }
   .weather-display-wrap h2 {
     font-size: 2rem;
@@ -95,7 +99,7 @@ import WeatherSubDisplay from './WeatherSubDisplay.vue';
     align-items: center;
   }
   .weather-display-wrap .main-weather-icon {
-    width: 45px;
+    width: 50px;
   }
   .weather-display-wrap .main-weather-temp {
     font-size: 2.5rem;
