@@ -1,15 +1,29 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import type { FutureList } from './WeatherDisplay.vue';
+
+  interface FutureItem {
+    dt_txt:string;
+    main:{
+      temp:number;
+      temp_max:number;
+      temp_min:number;
+    };
+    weather:{
+      icon:string
+    }[]
+  }
+  type CreateFutureObj = (newData:FutureList) => void;
 
   const props = defineProps<{
-    futureData:any
-    currentDate:any
+    futureData:FutureList
+    currentDate:Date
   }>()
 
-  const propsData = ref();
-  const futureData = ref([]);
+  const propsData = ref<FutureList>();
+  const futureData = ref<FutureItem[]>([]);
 
-  const createFutureObj = (newData:any) => {
+  const createFutureObj:CreateFutureObj = (newData) => {
     futureData.value = [];
     const futureObj:any = {};
 
@@ -62,11 +76,12 @@ import { ref, watch } from 'vue';
   })
 
   watch(propsData,(newData) => {
-    createFutureObj(newData)
+    if(newData){
+      createFutureObj(newData);
+    }
   })
 
   propsData.value = props.futureData;
-  console.log(futureData.value)
   
 </script>
 
@@ -74,7 +89,6 @@ import { ref, watch } from 'vue';
 <div class="sub-weather">
   <p class="sub-text">翌日以降の天気</p>
   <div class="sub-weather-item" v-for="data in futureData">
-    {{ console.log(data)}}
     <p class="future-date">{{ data.dt_txt }}</p>
     <div class="future-icon"><img :src="data.weather[0].icon"></div>
     <p class="future-temp">{{ Math.round(data.main.temp_max) }}/{{ Math.round(data.main.temp_min) }}℃</p>
