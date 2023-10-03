@@ -1,19 +1,36 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
 import WeatherSubDisplay from './WeatherSubDisplay.vue';
+import type { WeatherType } from './SearchWeather.vue';
+
+  interface FutureList {
+    list:{
+      dt_txt:string;
+      main:{
+        temp:number;
+        temp_max:number;
+        temp_min:number;
+      };
+      weather:{
+        icon:string
+      }[]
+    }[]
+  }
+  export type { FutureList };
+  type GetFutureData = (lat:number,lon:number) => Promise<FutureList>;
 
   const props = defineProps<{
-    currentData:any
+    currentData:WeatherType
   }>()
 
-  const futureData = ref();
+  const futureData = ref<FutureList>();
 
   const date  = new Date();
   const month = date.getMonth() + 1;
   const day   = date.getDate();
   const iconUrl = `https:/\/openweathermap.org/img/wn/${props.currentData.weather[0].icon}@2x.png`;
 
-  const getFutureData = async(lat,lon) => {
+  const getFutureData:GetFutureData = async(lat,lon) => {
     try {
       const result = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&lang=ja&&appid=5e97d352a6506604ac5ad5d7e3635764`)
 
@@ -27,12 +44,10 @@ import WeatherSubDisplay from './WeatherSubDisplay.vue';
     getFutureData(props.currentData.coord.lat,props.currentData.coord.lon)
     .then(res => futureData.value = res);
   })
-  // console.log(props.currentData.name);
   
 </script>
 
 <template>
-  <!-- {{ console.log(props.currentData) }} -->
   <div class="weather-display-wrap">
     <div class="current-weather">
       <div class="main-weather">
