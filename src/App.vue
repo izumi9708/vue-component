@@ -2,7 +2,7 @@
 import './CSS/Common.css';
 import Counter from './components/Counter.vue';
 import { ref } from 'vue';
-import Todo from './components/Todo.vue';
+// import Todo from './components/Todo.vue';
 import PostList from './components/PostList.vue';
 import SearchGithubAccount from './components/SearchGithubAccount.vue';
 import SearchAnime from './components/SearchAnime.vue';
@@ -14,7 +14,7 @@ import SearchWeather from './components/SearchWeather.vue'
 <template>
   <div class="app-wrapper">
     <Counter/>
-    <Todo/>
+    <!-- <Todo/> -->
     <PostList/>
     <SearchGithubAccount/>
     <SearchAnime/>

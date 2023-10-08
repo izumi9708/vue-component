@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref } from "vue";
 
 const taskList = ref([
@@ -87,4 +87,4 @@ const addTask:AddTask = (event) => {
   position: absolute;
   right: 10px;
 }
-</style>
+</style> -->

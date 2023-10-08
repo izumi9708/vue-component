@@ -1,17 +1,19 @@
 {
-  "name": "vue-tutorial",
+  "name": "vue-component",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/vue-component",
+    "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "test": "vitest",
-    "test:unit": "vitest --environment jsdom --root src/"
+    "test:unit": "vitest --environment jsdom --root src/",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "gh-pages": "^6.0.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
