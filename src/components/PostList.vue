@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref,watchEffect} from 'vue';
+import { getList } from './getList';
 
 type Data = {
   body:string;
@@ -9,10 +10,6 @@ type Data = {
 }
 
   const data = ref<Data[]>([]);
-
-  async function getList():Promise<Data[]> {
-    return (await fetch('https://jsonplaceholder.typicode.com/posts')).json();
-  }
 
   watchEffect(() => {
     getList().then(res => {
