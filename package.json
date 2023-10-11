@@ -2,17 +2,19 @@
   "name": "vue-component",
   "version": "0.0.0",
   "private": true,
+  "type": "module", 
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "test": "vitest",
+    "test": "vitest --environment jsdom --root src/",
     "test:unit": "vitest --environment jsdom --root src/",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "axios": "^1.5.1",
     "gh-pages": "^6.0.0",
     "vue": "^3.3.4"
   },
@@ -24,8 +26,10 @@
     "@vitejs/plugin-vue": "^4.3.4",
     "@vue/test-utils": "^2.4.1",
     "@vue/tsconfig": "^0.4.0",
+    "fetch-mock": "^9.11.0",
     "jest": "^29.7.0",
     "jsdom": "^22.1.0",
+    "node-fetch": "^3.3.2",
     "npm-run-all": "^4.1.5",
     "ts-jest": "^29.1.1",
     "typescript": "~5.1.6",
