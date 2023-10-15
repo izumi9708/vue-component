@@ -1,15 +1,16 @@
 import { describe, expect, it, test , beforeAll,afterAll } from 'vitest'
+import { getByRole, render, screen, waitFor } from "@testing-library/vue";
+import userEvent from "@testing-library/user-event";
 import { mount } from '@vue/test-utils';
 import PostList from '../components/PostList.vue'
-import fetchMock from 'fetch-mock';
 import 'cross-fetch/polyfill'
 import { ref } from 'vue';
 import { getList } from '../components/getList';
+import { waitForPendingWrites } from 'firebase/firestore';
 
 // テストケース1: dataの初期値が正しいかどうかを確認するテストを書いてください。
 // テストケース2: getList関数の非同期呼び出しが正しく機能するかどうかを確認するテストを書いてください。
 // テストケース3: リスト項目をクリックしたときに、詳細が表示および非表示になることを確認するテストを書いてください。
-// テストケース4: リスト項目のクリック操作が正しく動作しない場合（詳細が表示されない/非表示にならないなど）のエッジケースのテストを書いてください。
 
 type Data = {
   body:string;
@@ -52,6 +53,7 @@ describe('PostList Component Test',() => {
     expect(data.value).toEqual(mockData);
   })
 
+  // 2.
   it('GetList Function Work Properly',async() => {
     const data = ref<Data[]>([]);
     const wrapper = mount(PostList)
@@ -60,5 +62,20 @@ describe('PostList Component Test',() => {
     const dataArray = res.filter(item => item.id < 11 ? data.value.push(item) : '')
     
     expect(dataArray.length).not.toBe(0);
+  })
+  // 3.
+  it('Toggle display with click list item',async() => {
+    const {container} = render(PostList);
+
+    await waitFor(async() =>{
+      const listItems = container.querySelectorAll('li');
+      
+      listItems.forEach(item => {
+        userEvent.click(item);
+
+        const dispalyWrap = item.querySelector('.list-detail-wrap');
+        expect(dispalyWrap).toBeNull()
+      })
+    })
   })
 })

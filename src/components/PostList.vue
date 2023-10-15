@@ -33,7 +33,9 @@ type Data = {
       投稿リスト
       <p class="list-explanation">リストをクリックすると詳細が表示されます</p>
       <ul>
-        <li v-for="list in data">
+        <li v-for="list in data"
+          data-testid="list-item"
+        >
           <p class="list-title" @click="toggleList">{{ list.title }}</p>
           <div class="list-detail-wrap hide-wrap">
             <p class="list-user-id">userId:{{ list.userId }}</p>
