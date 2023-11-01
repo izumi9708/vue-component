@@ -33,7 +33,7 @@ import WeatherDisplay from './WeatherDisplay.vue';
 
   const input = ref<string>();
   const currentData = ref<WeatherType>();
-  const notFoundData = ref<NotFoundCity>()
+  const notFoundData = ref<NotFoundCity>();
   const looding = ref();
 
   const getCurrentWeather:GetCurrentWeather = async(inputValue) => {

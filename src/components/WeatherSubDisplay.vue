@@ -30,7 +30,7 @@ import type { FutureList } from './WeatherDisplay.vue';
     const futureDateArray = newData.list.filter(item => {
       const futureDate = new Date(item.dt_txt);
       
-      if(futureDate.getDate() > props.currentDate.getDate()){
+      if(futureDate.getDate() !== props.currentDate.getDate()){
         return item;
       }
     })
